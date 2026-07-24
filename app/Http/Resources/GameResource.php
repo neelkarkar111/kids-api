@@ -15,18 +15,38 @@ class GameResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return [
+         return [
             'id' => $this->id,
             'title' => $this->title,
-            'slug' => $this->slug,
-            'icon' => $this->icon 
-                ? url(Storage::url($this->icon)) 
-                : null,
-            'difficulty' => $this->difficulty,
-            'reward_coins' => $this->reward_coins,
-            'reward_xp' => $this->reward_xp,
-            'is_active' => $this->is_active,
-            'sort_order' => $this->sort_order,
+            'type' => $this->type,
+            'data' => $this->formatData($this->data),
+            'is_active' => (bool) $this->is_active,
         ];
+    }
+
+    private function formatData(?array $data): array
+    {
+        if (!$data) {
+            return [];
+        }
+
+        return $this->formatImages($data);
+    }
+
+    private function formatImages(array $data): array
+    {
+        foreach ($data as $key => &$value) {
+
+            if (is_string($value) && str_starts_with($value, 'games/')) {
+
+                $value = url(Storage::url($value));
+            }
+
+            if (is_array($value)) {
+                $value = $this->formatImages($value);
+            }
+        }
+        unset($value);
+        return $data;
     }
 }

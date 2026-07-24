@@ -16,63 +16,75 @@ class GameSeeder extends Seeder
         $games = [
             [
                 'title' => 'Find Difference',
-                'slug' => 'find-difference',
-                'icon' => 'games/icons/find-difference.png',
-                'difficulty' => 'Easy',
-                'reward_coins' => 50,
-                'reward_xp' => 20,
-                'sort_order' => 1,
+                'type' => 'find_difference',
+                'data' => [
+                    'lives' => 3,
+                    'difference_count' => 3,
+                    'image_left' => 'games/find-difference/image-left.png',
+                    'image_right' => 'games/find-difference/image-right.png',
+                ],
+                'is_active' => true,
             ],
             [
-                'title' => 'Drag & Drop',
-                'slug' => 'drag-drop',
-                'icon' => 'games/icons/drag-drop.png',
-                'difficulty' => 'Easy',
-                'reward_coins' => 50,
-                'reward_xp' => 20,
-                'sort_order' => 2,
-            ],
-            [
-                'title' => 'Word Puzzle',
-                'slug' => 'word-puzzle',
-                'icon' => 'games/icons/word-puzzle.png',
-                'difficulty' => 'Medium',
-                'reward_coins' => 100,
-                'reward_xp' => 50,
-                'sort_order' => 3,
-            ],
-            [
-                'title' => 'Pattern Memory',
-                'slug' => 'pattern-memory',
-                'icon' => 'games/icons/pattern-memory.png',
-                'difficulty' => 'Medium',
-                'reward_coins' => 100,
-                'reward_xp' => 50,
-                'sort_order' => 4,
-            ],
-            [
-                'title' => 'Code Breaker',
-                'slug' => 'code-breaker',
-                'icon' => 'games/icons/code-breaker.png',
-                'difficulty' => 'Hard',
-                'reward_coins' => 200,
-                'reward_xp' => 100,
-                'sort_order' => 5,
-            ],
-            [
-                'title' => 'Sudoku Lite',
-                'slug' => 'sudoku-lite',
-                'icon' => 'games/icons/sudoku-lite.png',
-                'difficulty' => 'Hard',
-                'reward_coins' => 200,
-                'reward_xp' => 100,
-                'sort_order' => 6,
+                'title' => 'Animal Home Match',
+                'type' => 'animal_home_match',
+                'data' => [
+                    'lives' => 3,
+                    'total_matches' => 4,
+
+                    'animals' => [
+                        [
+                            'id' => 1,
+                            'name' => 'Fish',
+                            'image' => 'games/drag-and-drop/fish.png',
+                        ],
+                        [
+                            'id' => 2,
+                            'name' => 'Lion',
+                            'image' => 'games/drag-and-drop/fish.png',
+                        ],
+                        [
+                            'id' => 3,
+                            'name' => 'Camel',
+                            'image' => 'games/drag-and-drop/fish.png',
+                        ],
+                        [
+                            'id' => 4,
+                            'name' => 'Penguin',
+                            'image' => 'games/drag-and-drop/fish.png',
+                        ],
+                    ],
+
+                    'homes' => [
+                        [
+                            'id' => 1,
+                            'name' => 'Desert',
+                            'image' => 'games/drag-and-drop/ocean.png',
+                        ],
+                        [
+                            'id' => 2,
+                            'name' => 'Ocean',
+                            'image' => 'games/drag-and-drop/ocean.png',
+                        ],
+                        [
+                            'id' => 3,
+                            'name' => 'Ice',
+                            'image' => 'games/drag-and-drop/ocean.png',
+                        ],
+                        [
+                            'id' => 4,
+                            'name' => 'Forest',
+                            'image' => 'games/drag-and-drop/ocean.png',
+                        ],
+                    ],
+                ],
+                'is_active' => true,
             ],
         ];
 
         foreach ($games as $game) {
             Game::updateOrCreate(
-                ['slug' => $game['slug']],
+                ['type' => $game['type']],
                 $game
             );
         }

@@ -6,16 +6,26 @@ use App\Helpers\ApiResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\GameResource;
 use App\Models\Game;
-use Illuminate\Http\Request;
 
 class GameController extends Controller
 {
-    public function index() {
-        
-        $games = Game::where('is_active', true)->orderBy('sort_order')->get();
+    public function index()
+    {
+        $games = Game::where('is_active', true)->get();
 
         return ApiResponse::success(
-            GameResource::collection($games)
+            GameResource::collection($games),
+            'Games fetched successfully'
+        );
+    }
+
+     public function show(int $id)
+    {
+        $game = Game::where('id', $id)->where('is_active', true)->firstOrFail();
+
+        return ApiResponse::success(
+            new GameResource($game),
+            'Game details fetched successfully'
         );
     }
 }
