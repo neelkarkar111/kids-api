@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('name');
             $table->unsignedTinyInteger('age');
             $table->string('gender')->nullable();  
+            $table->string('parent_pin');
             $table->string('avatar')->nullable();
             $table->unsignedInteger('coins')->default(0);
             $table->unsignedInteger('xp')->default(0);

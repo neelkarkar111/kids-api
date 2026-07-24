@@ -47,8 +47,7 @@ class UserAuthService
             'first_name' => $data['first_name'],
             'last_name' => $data['last_name'],
             'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-            'parent_pin' => Hash::make($data['parent_pin']),
+            'password' => $data['password'],
         ]);
 
         $token = $user->createToken(self::TOKEN_NAME)->plainTextToken;

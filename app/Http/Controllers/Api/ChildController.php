@@ -7,9 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\AddChildRequest;
 use App\Http\Requests\UpdateChildRequest;
 use App\Http\Resources\ChildResource;
-use App\Interfaces\ChildInterface;
 use App\Services\ChildService;
-use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -28,7 +26,7 @@ class ChildController extends Controller
         $childs = $this->childService->all();
 
         return ApiResponse::success([
-            'children' => ChildResource::collection($childs)
+            'childs' => ChildResource::collection($childs)
         ], 'All child data', 200);
 
     }
@@ -44,7 +42,7 @@ class ChildController extends Controller
         );
     
         return ApiResponse::success([
-            'children' => new ChildResource($child),
+            'child' => new ChildResource($child),
         ],  'Child created successfully', 201);  
     }
 
@@ -56,7 +54,7 @@ class ChildController extends Controller
         $child = $this->childService->find($id);
 
         return ApiResponse::success([
-            'children' => new ChildResource($child)   
+            'child' => new ChildResource($child)   
         ], 'Child found successfully');
     }   
 
@@ -72,7 +70,7 @@ class ChildController extends Controller
         );
 
         return ApiResponse::success([   
-            'children' => new ChildResource($child),
+            'child' => new ChildResource($child),
         ], 'Child updated successfully', 200);
     }
 

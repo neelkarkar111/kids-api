@@ -23,10 +23,11 @@ class AddChildRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'   => ['required', 'string', 'max:255'],
-            'age'    => ['required', 'integer', 'min:5', 'max:18'],
-            'gender' => ['required', 'in:male,female'],
-            'avatar' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:2048'],
+            'name'       => ['required', 'string', 'max:255'],
+            'age'        => ['required', 'integer', 'min:5', 'max:18'],
+            'gender'     => ['required', 'in:male,female'],
+            'parent_pin' => ['required', 'digits:4'],
+            'avatar'     => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:2048'],
         ];
     }
 }

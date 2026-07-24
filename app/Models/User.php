@@ -13,8 +13,8 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
 
-#[Fillable(['first_name', 'last_name', 'email', 'password', 'parent_pin'])]
-#[Hidden(['password', 'parent_pin'])]
+#[Fillable(['first_name', 'last_name', 'email', 'password'])]
+#[Hidden(['password'])]
 class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
@@ -30,9 +30,8 @@ class User extends Authenticatable
     protected function casts(): array
     {
         return [
-            'email_verified_at' => 'datetime',
             'password' => 'hashed',
-            'parent_pin' => 'hashed',
+            'email_verified_at' => 'datetime',
         ];
     }
 

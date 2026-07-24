@@ -27,7 +27,6 @@ class RegisterRequest extends FormRequest
             'last_name'  => ['required', 'string', 'max:255'],
             'email'      => ['required', 'email:rfc,dns', 'unique:users,email'],
             'password'   => ['required', 'confirmed'],
-            'parent_pin' => ['required', 'digits:4'],
         ];
     }
 }
