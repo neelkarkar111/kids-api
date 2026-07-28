@@ -2,6 +2,8 @@
 
 namespace App\Http\Resources;
 
+use App\Services\MemoryMasterService;
+use App\Services\WordSearchService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Storage;
@@ -28,6 +30,46 @@ class GameResource extends JsonResource
     {
         if (!$data) {
             return [];
+        }
+
+        // Dynamic Word Search
+        // if ($this->type === 'word_search') {
+        //     $generator = app(WordSearchService::class);
+
+        //     $game = $generator->generate(
+        //         $data['words'] ?? [],
+        //         $data['grid_size'] ?? 7
+        //     );
+
+        //     $data['target_word'] = $game['target_word'];
+        //     $data['grid'] = $game['grid'];
+
+        //     // Don't send all possible words to frontend
+        //     unset($data['words']);
+        // }
+
+        // Dynamic Word Search
+        if ($this->type === 'word_search') {
+
+            $generator = app(WordSearchService::class);
+
+            return [
+                'words' => $generator->generate(
+                    $data['words'] ?? [],
+                    $data['grid_size'] ?? 7
+                ),
+            ];
+        }
+
+        // Dynamic Memory Master
+        if ($this->type === 'memory_master') {
+            $generator = app(MemoryMasterService::class);
+
+            $data['patterns'] = $generator->generate(
+                $data['colors'] ?? [],
+                $data['total_levels'] ?? 7,
+                2
+            );
         }
 
         return $this->formatImages($data);

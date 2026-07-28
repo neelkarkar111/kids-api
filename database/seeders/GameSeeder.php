@@ -80,6 +80,37 @@ class GameSeeder extends Seeder
                 ],
                 'is_active' => true,
             ],
+            [
+                'title' => 'Word Search',
+                'type' => 'word_search',
+                'data' => [
+                    'lives' => 3,
+                    'total_words' => 7,
+                    'words' => [
+                        'PLANET',
+                        'CAPTAIN',
+                        'FREEDOM',
+                        'MYSTERY',
+                        'JOURNEY',
+                        'ANIMALS',
+                        'RAINBOW',
+                    ],
+                ],
+            ],
+            [
+                'title' => 'Memory Master',
+                'type' => 'memory_master',
+                'data' => [
+                    'lives' => 3,
+                    'total_levels' => 7,
+                    'colors' => [
+                        'red',
+                        'blue',
+                        'green',
+                        'yellow',
+                    ],
+                ],
+            ],
         ];
 
         foreach ($games as $game) {
