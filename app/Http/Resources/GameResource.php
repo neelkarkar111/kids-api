@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Services\CodeBreakerService;
 use App\Services\MemoryMasterService;
 use App\Services\WordSearchService;
 use Illuminate\Http\Request;
@@ -70,6 +71,11 @@ class GameResource extends JsonResource
                 $data['total_levels'] ?? 7,
                 2
             );
+        }
+
+        // Dynamic Code Breaker
+        if ($this->type === 'code_breaker') {
+            return app(CodeBreakerService::class)->generate();
         }
 
         return $this->formatImages($data);
