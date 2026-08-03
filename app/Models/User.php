@@ -13,14 +13,14 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
 
-#[Fillable(['first_name', 'last_name', 'email', 'password'])]
+#[Fillable(['first_name', 'last_name', 'email', 'password', 'role_id'])]
 #[Hidden(['password'])]
 class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable, HasApiTokens, SoftDeletes;
 
-    public const TOKEN_NAME = 'parent-token';
+    public const TOKEN_NAME = 'auth-token';
 
     /**
      * Get the attributes that should be cast.
@@ -35,8 +35,23 @@ class User extends Authenticatable
         ];
     }
 
-    public function children() {
-
+    public function children() 
+    {
         return $this->hasMany(Children::class, 'parent_id');
+    }
+
+    public function role() 
+    {
+        return $this->belongsTo(Role::class);
+    }
+
+    public function isAdmin()
+    {
+        return $this->role?->name === 'Admin';
+    }
+
+    public function isParent()
+    {
+        return $this->role?->name === 'Parent';
     }
 }

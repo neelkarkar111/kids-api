@@ -18,6 +18,8 @@ class DatabaseSeeder extends Seeder
         $this->call([ 
             GameSeeder::class, 
             GameZoneSeeder::class, 
+            RoleSeeder::class,
+            AdminSeeder::class,
         ]);
     }
 }

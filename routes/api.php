@@ -31,7 +31,6 @@ Route::get('/user', function (Request $request) {
     | Protected Routes
     |--------------------------------------------------------------------------
     */
-    // Route::group(['middleware' => 'auth:sanctum'], function(){
     Route::middleware('auth:sanctum')->group(function () {
     
         Route::post('/logout', [UserAuthController::class, 'logout']);
@@ -48,8 +47,23 @@ Route::get('/user', function (Request $request) {
     
                 // Update screen time for a specific child
                 Route::post('/{id}/screen-time','updateScreenTime');
-    
             }); 
+
+            // Admin routes 
+            Route::prefix('admin')->middleware('admin')->group(function () {
+
+                // mission routs
+                Route::controller(MissionController::class)->group(function () {
+                    
+                    Route::prefix('missions')->group(function () {
+                        Route::get('/', 'index');
+                        Route::post('/', 'store');
+                        Route::get('/{id}', 'show');
+                        Route::put('/{id}', 'update');
+                        Route::delete('/{id}', 'destroy');
+                    });
+                });
+            });
         });
 
         // Route::post('/children/select', [SelectChildController::class, 'select']);
@@ -57,26 +71,8 @@ Route::get('/user', function (Request $request) {
         // Route::post('/mission/{mission}/complete', [MissionController::class, 'complete']); 
         // Route::post('/children/{child}/mission/{mission}/complete', [MissionController::class, 'completeMission']); 
             
-
-    // Route::get('/users', [UserController::class, 'showAll']);
-    // Route::get('/user/{id}', [UserController::class, 'singleUser']);
-    // Route::put('/user/{id}/coins', [UserController::class, 'updateCoins']);
-    // Route::get('/missions', [MissionController::class, 'missions']);
-    // Route::post('/submit', [SubmitAnsController::class , 'submitAnswer']);
-
     });
 
-    // mission routs
-    Route::controller(MissionController::class)->group(function () {
-        Route::get('/missions', 'index');
-
-        Route::prefix('mission')->group(function () {
-            Route::post('/', 'store');
-            Route::get('/{id}', 'show');
-            Route::put('/{id}', 'update');
-            Route::delete('/{id}', 'destroy');
-        });
-    });
         
     Route::middleware(['auth:sanctum', 'active.child'])->group(function () {
 

@@ -2,15 +2,15 @@
 
 namespace App\Services;
 
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 
 
 class UserAuthService
 {
-    private const TOKEN_NAME = 'parent-token';
+    private const TOKEN_NAME = 'auth-token';
 
     /**
      * Login user and generate access token.
@@ -27,7 +27,18 @@ class UserAuthService
                 ]);
         }
 
-        $user = auth()->user();
+        $user = auth()->user()->load('role');
+
+        // Check role exists and is active
+        if (!$user->role || !$user->role->status) {
+            throw ValidationException::withMessages([
+                'email' => ['Your role is inactive. Please contact the administrator.'],
+            ]);
+        }
+
+        // $abilities = $user->isAdmin()
+        //     ? ['admin-access']
+        //     : ['parent-access'];
 
         $token = $user->createToken(self::TOKEN_NAME)->plainTextToken;
 
@@ -42,12 +53,14 @@ class UserAuthService
     */
     public function register(array $data)
     {
+        $parentRole = Role::where('name', 'Parent')->firstOrFail();
+
         $user = User::create([
-            
             'first_name' => $data['first_name'],
             'last_name' => $data['last_name'],
             'email' => $data['email'],
             'password' => $data['password'],
+            'role_id' => $parentRole->id,
         ]);
 
         $token = $user->createToken(self::TOKEN_NAME)->plainTextToken;

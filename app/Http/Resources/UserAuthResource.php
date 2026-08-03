@@ -21,6 +21,10 @@ class UserAuthResource extends JsonResource
             'first_name' => $this->first_name,
             'last_name' => $this->last_name,
             'email' => $this->email,
+            'role' => [
+                'role_id' => $this->role->id,
+                'role_name' => $this->role->name,
+            ],
             'email_verified_at' => $this->email_verified_at?->toIsoString(),
             'created_at' => $this->created_at->toIsoString(),
             'updated_at' => $this->updated_at->toIsoString(),
