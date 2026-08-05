@@ -19,14 +19,14 @@ class ChildService
         return $this->childRepository->all();
     }
 
-    public function create(array $data, $avatar = null) {
+    public function create(array $data) {
 
         $today = Carbon::today()->toDateString();
 
         $data['last_active_date'] = $today;
         $data['screen_time_date'] = $today;
 
-        return $this->childRepository->create($data, $avatar);
+        return $this->childRepository->create($data);
     }
 
     public function find(int $id) {
@@ -34,9 +34,9 @@ class ChildService
         return $this->childRepository->find($id);
     }
 
-    public function update(array $data, int $id, $avatar = null) {
+    public function update(array $data, int $id) {
 
-        return $this->childRepository->update($data, $id, $avatar);
+        return $this->childRepository->update($data, $id);
     } 
 
     public function delete(int $id) {

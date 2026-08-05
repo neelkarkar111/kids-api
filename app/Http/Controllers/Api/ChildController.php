@@ -26,8 +26,8 @@ class ChildController extends Controller
         $childs = $this->childService->all();
 
         return ApiResponse::success([
-            'childs' => ChildResource::collection($childs)
-        ], 'All child data', 200);
+            'children' => ChildResource::collection($childs)
+        ], 'All children data', 200);
 
     }
 
@@ -36,10 +36,7 @@ class ChildController extends Controller
      */
     public function store(AddChildRequest $request): JsonResponse
     {
-        $child = $this->childService->create(
-            $request->validated(),
-            $request->file('avatar'),
-        );
+        $child = $this->childService->create($request->validated());
     
         return ApiResponse::success([
             'child' => new ChildResource($child),
@@ -63,11 +60,7 @@ class ChildController extends Controller
      */
     public function update(UpdateChildRequest $request, int $id): JsonResponse
     {
-        $child = $this->childService->update(
-            $request->validated(), 
-            $id, 
-            $request->file('avatar')
-        );
+        $child = $this->childService->update($request->validated(), $id);
 
         return ApiResponse::success([   
             'child' => new ChildResource($child),

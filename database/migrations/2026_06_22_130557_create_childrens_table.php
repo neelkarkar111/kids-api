@@ -13,12 +13,11 @@ return new class extends Migration
     {
         Schema::create('childrens', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('parent_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('parent_id')->constrained('users')->cascadeOnDelete();
             $table->string('name');
             $table->unsignedTinyInteger('age');
             $table->string('gender')->nullable();  
             $table->string('parent_pin');
-            $table->string('avatar')->nullable();
             $table->unsignedInteger('coins')->default(0);
             $table->unsignedInteger('xp')->default(0);
             $table->unsignedInteger('level')->default(1);

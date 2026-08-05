@@ -19,42 +19,28 @@ class ChildRepository
     // Get all children for the authinticated user
     public function all() {
         
-        return auth()->user()->Children;
+        return auth()->user()->children()->with('avatar')->get();
     }
     
     // Create a new child
-    public function create(array $data, $avatar = null) {
-        
-        if($avatar){
-            $data['avatar'] = $avatar->store('avatars', 'public');
-        }
+    public function create(array $data) {
 
-        return auth()->user()->children()->create($data);   
+        return auth()->user()->children()->create($data)->load('avatar');   
     }
 
     // Find a child by ID
     public function find(int $id) {
 
-        return auth()->user()->Children()->findOrFail($id);
+        return auth()->user()->Children()->with('avatar')->findOrFail($id);
     }   
 
     // Update a child by ID
-    public function update(array $data, int $id, $avatar = null) {
+    public function update(array $data, int $id) {
         
         $child = $this->find($id);
 
-        if($avatar) {
-            //delete old avatar
-            if($child->avatar && Storage::disk('public')->exists($child->avatar)) {
-                Storage::disk('public')->delete($child->avatar);
-            }
-
-            //store new avatar
-            $data['avatar'] = $avatar->store('avatars', 'public');
-        }
-
         $child->update($data);
-        return $child->fresh();
+        return $child->fresh()->load('avatar');
     }
 
     // Delete a child by ID
@@ -62,12 +48,6 @@ class ChildRepository
         
         $child = $this->find($id);
 
-        if($avatar) {
-            //delete avatar file
-            if($child->avatar && Storage::disk('public')->exists($child->avatar)) {
-                Storage::disk('public')->delete($child->avatar);
-            }
-        }
         return $child->delete();
     }
 

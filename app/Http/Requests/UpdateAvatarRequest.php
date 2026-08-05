@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateChildRequest extends FormRequest
+class UpdateAvatarRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,12 +22,10 @@ class UpdateChildRequest extends FormRequest
      */
     public function rules(): array
     {
-
         return [
-            'name'     => ['sometimes', 'string', 'max:255'],
-            'age'      => ['sometimes', 'integer', 'min:5', 'max:18'],
-            'gender'   => ['sometimes', 'in:male,female'],
-            'avatar_id' => ['sometimes', 'nullable', 'exists:avatars,id'],
+            'name'   => ['sometimes', 'string', 'max:100'],
+            'image'  => ['sometimes', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
+            'status' => ['sometimes', 'boolean'],
         ];
     }
 }

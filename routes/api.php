@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\api\Admin\AvatarController;
+use App\Http\Controllers\api\AdminDashboardController;
 use App\Http\Controllers\Api\AllGameController;
 use App\Http\Controllers\Api\MissionController;
 use App\Http\Controllers\Api\SubmitAnsController;
@@ -48,22 +50,29 @@ Route::get('/user', function (Request $request) {
                 // Update screen time for a specific child
                 Route::post('/{id}/screen-time','updateScreenTime');
             }); 
+        });
 
-            // Admin routes 
-            Route::prefix('admin')->middleware('admin')->group(function () {
+        // Admin routes 
+        Route::prefix('admin')->middleware('admin')->group(function () {
 
-                // mission routs
-                Route::controller(MissionController::class)->group(function () {
-                    
-                    Route::prefix('missions')->group(function () {
-                        Route::get('/', 'index');
-                        Route::post('/', 'store');
-                        Route::get('/{id}', 'show');
-                        Route::put('/{id}', 'update');
-                        Route::delete('/{id}', 'destroy');
-                    });
-                });
+            // mission routs
+            Route::prefix('missions')->controller(MissionController::class)->group(function () {
+                Route::get('/', 'index');
+                Route::post('/', 'store');
+                Route::get('/{id}', 'show');
+                Route::put('/{id}', 'update');
+                Route::delete('/{id}', 'destroy');
             });
+
+            Route::prefix('avatars')->controller(AvatarController::class)->group(function () {
+                    Route::get('/', 'index');
+                    Route::post('/', 'store');
+                    Route::get('/{avatar}', 'show');
+                    Route::put('/{avatar}', 'update');
+                    Route::delete('/{avatar}', 'destroy');
+            });
+
+            Route::get('/dashboard', [AdminDashboardController::class, 'index']);
         });
 
         // Route::post('/children/select', [SelectChildController::class, 'select']);

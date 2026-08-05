@@ -16,7 +16,7 @@ class Children extends Model
         'age', 
         'gender',
         'parent_pin',
-        'avatar', 
+        'avatar_id', 
         'coins', 
         'xp', 
         'level',
@@ -40,5 +40,10 @@ class Children extends Model
     public function parent()
     {
         return $this->belongsTo(User::class, 'parent_id');
+    }
+
+    public function avatar()
+    {
+        return $this->belongsTo(Avatar::class);
     }
 }

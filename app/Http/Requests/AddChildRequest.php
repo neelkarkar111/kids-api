@@ -27,7 +27,7 @@ class AddChildRequest extends FormRequest
             'age'        => ['required', 'integer', 'min:5', 'max:18'],
             'gender'     => ['required', 'in:male,female'],
             'parent_pin' => ['required', 'digits:4'],
-            'avatar'     => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:2048'],
+            'avatar_id'  => ['nullable', 'exists:avatars,id'],
         ];
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Storage;
 
 class ChildResource extends JsonResource
 {
@@ -20,9 +21,13 @@ class ChildResource extends JsonResource
             'name' => $this->name,
             'age' => $this->age,
             'gender' => $this->gender,
-            'avatar' => $this->avatar
-                ? asset('storage/' . $this->avatar)
-                : null,            
+            'avatar' => [
+                'id' => $this->avatar?->id,
+                'name' => $this->avatar?->name,
+                'image' => $this->avatar
+                    ? Storage::url($this->avatar->image)
+                    : null,
+            ],           
             'coins' => $this->coins,
             'xp' => $this->xp,
             'level' => $this->level,
