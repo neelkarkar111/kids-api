@@ -44,7 +44,7 @@ class ChildRepository
     }
 
     // Delete a child by ID
-    public function delete(int $id, $avatar = null) {
+    public function delete(int $id) {
         
         $child = $this->find($id);
 

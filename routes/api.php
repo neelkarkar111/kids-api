@@ -1,8 +1,8 @@
 <?php
 
 use App\Http\Controllers\api\Admin\AvatarController;
-use App\Http\Controllers\api\AdminDashboardController;
-use App\Http\Controllers\Api\AllGameController;
+use App\Http\Controllers\Api\Admin\DashboardController;
+use App\Http\Controllers\Api\Admin\ParentController;
 use App\Http\Controllers\Api\MissionController;
 use App\Http\Controllers\Api\SubmitAnsController;
 use App\Http\Controllers\Api\Auth\UserAuthController;
@@ -52,7 +52,11 @@ Route::get('/user', function (Request $request) {
             }); 
         });
 
-        // Admin routes 
+        /*
+        |--------------------------------------------------------------------------
+        | Admin Routes
+        |--------------------------------------------------------------------------
+        */
         Route::prefix('admin')->middleware('admin')->group(function () {
 
             // mission routs
@@ -64,6 +68,7 @@ Route::get('/user', function (Request $request) {
                 Route::delete('/{id}', 'destroy');
             });
 
+            // avatar crud
             Route::prefix('avatars')->controller(AvatarController::class)->group(function () {
                     Route::get('/', 'index');
                     Route::post('/', 'store');
@@ -72,7 +77,15 @@ Route::get('/user', function (Request $request) {
                     Route::delete('/{avatar}', 'destroy');
             });
 
-            Route::get('/dashboard', [AdminDashboardController::class, 'index']);
+            // parent manaagement
+            Route::prefix('parents')->controller(ParentController::class)->group(function () {
+                Route::get('/', 'index');
+                Route::get('/{id}', 'show');
+                Route::put('/{id}', 'update');
+                Route::delete('/{id}', 'destroy');
+            });
+
+            Route::get('/dashboard', [DashboardController::class, 'index']);
         });
 
         // Route::post('/children/select', [SelectChildController::class, 'select']);
