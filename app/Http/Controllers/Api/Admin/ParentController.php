@@ -19,7 +19,7 @@ class ParentController extends Controller
     public function index(Request $request)
     {
         $parents = $this->parentService->getAll(
-            $request->get('per_page', 10)
+            $request->integer('per_page', 10)
         );
 
         return ParentResource::collection($parents)->additional([

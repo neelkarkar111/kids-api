@@ -1,15 +1,14 @@
 <?php
 
 use App\Http\Controllers\api\Admin\AvatarController;
+use App\Http\Controllers\Api\Admin\ChildManageController;
 use App\Http\Controllers\Api\Admin\DashboardController;
 use App\Http\Controllers\Api\Admin\ParentController;
 use App\Http\Controllers\Api\MissionController;
-use App\Http\Controllers\Api\SubmitAnsController;
 use App\Http\Controllers\Api\Auth\UserAuthController;
 use App\Http\Controllers\Api\ChildController;
 use App\Http\Controllers\Api\GameController;
 use App\Http\Controllers\Api\GameZoneController;
-use App\Http\Controllers\Api\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -33,15 +32,14 @@ Route::get('/user', function (Request $request) {
     | Protected Routes
     |--------------------------------------------------------------------------
     */
+    
     Route::middleware('auth:sanctum')->group(function () {
     
         Route::post('/logout', [UserAuthController::class, 'logout']);
 
         // Child routes
-        Route::controller(ChildController::class)->group(function () {
-            Route::get('/childrens','index');
-            
-            Route::prefix('children')->group(function () {
+        Route::prefix('children')->controller(ChildController::class)->group(function () {
+                Route::get('/','index');
                 Route::post('/','store');
                 Route::get('/{id}','show');
                 Route::put('/{id}','update');
@@ -49,7 +47,6 @@ Route::get('/user', function (Request $request) {
     
                 // Update screen time for a specific child
                 Route::post('/{id}/screen-time','updateScreenTime');
-            }); 
         });
 
         /*
@@ -57,6 +54,7 @@ Route::get('/user', function (Request $request) {
         | Admin Routes
         |--------------------------------------------------------------------------
         */
+
         Route::prefix('admin')->middleware('admin')->group(function () {
 
             // mission routs
@@ -79,6 +77,14 @@ Route::get('/user', function (Request $request) {
 
             // parent manaagement
             Route::prefix('parents')->controller(ParentController::class)->group(function () {
+                Route::get('/', 'index');
+                Route::get('/{id}', 'show');
+                Route::put('/{id}', 'update');
+                Route::delete('/{id}', 'destroy');
+            });
+
+            // child management
+            Route::prefix('children')->controller(ChildManageController::class)->group(function () {
                 Route::get('/', 'index');
                 Route::get('/{id}', 'show');
                 Route::put('/{id}', 'update');

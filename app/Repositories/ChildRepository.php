@@ -4,7 +4,6 @@ namespace App\Repositories;
 
 use App\Models\Children;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Storage;
 
 class ChildRepository 
 {
@@ -15,39 +14,59 @@ class ChildRepository
     {
         //
     }
-
-    // Get all children for the authinticated user
-    public function all() {
+    
+    /*
+    |--------------------------------------------------------------------------
+    | Parent
+    |--------------------------------------------------------------------------
+    */
+    
+    public function allByParent() {
         
         return auth()->user()->children()->with('avatar')->get();
     }
     
-    // Create a new child
-    public function create(array $data) {
+    public function createByParent(array $data) {
 
         return auth()->user()->children()->create($data)->load('avatar');   
     }
 
-    // Find a child by ID
-    public function find(int $id) {
+    public function findByParent(int $id) {
 
         return auth()->user()->Children()->with('avatar')->findOrFail($id);
     }   
 
-    // Update a child by ID
-    public function update(array $data, int $id) {
-        
-        $child = $this->find($id);
+    /*
+    |--------------------------------------------------------------------------
+    | Admin 
+    |--------------------------------------------------------------------------
+    */
+
+    public function all(int $perPage = 10) {
+        return Children::with('avatar')->latest()->paginate($perPage);
+    }
+
+    public function find(int $id) {
+
+        return Children::with('avatar')->findOrFail($id); 
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Common
+    |--------------------------------------------------------------------------
+    */
+
+    public function update(Children $child, array $data) {  
 
         $child->update($data);
+
         return $child->fresh()->load('avatar');
     }
 
     // Delete a child by ID
-    public function delete(int $id) {
+    public function delete(Children $child) {
         
-        $child = $this->find($id);
-
         return $child->delete();
     }
 

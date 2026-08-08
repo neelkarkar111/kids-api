@@ -17,18 +17,20 @@ class ChildController extends Controller
         protected ChildService $childService,
     ) {}
 
+    // public function all() {
+        
+    // }
 
     /**
-     * Display a listing of the resource.
+     * Display a listing of the resource.   
      */
     public function index(): JsonResponse
     {
-        $childs = $this->childService->all();
+        $childs = $this->childService->allByParent();
 
         return ApiResponse::success([
             'children' => ChildResource::collection($childs)
-        ], 'All children data', 200);
-
+        ], 'Children fetched successfully.', 200);
     }
 
     /**
@@ -36,7 +38,7 @@ class ChildController extends Controller
      */
     public function store(AddChildRequest $request): JsonResponse
     {
-        $child = $this->childService->create($request->validated());
+        $child = $this->childService->createByParent($request->validated());
     
         return ApiResponse::success([
             'child' => new ChildResource($child),
@@ -48,10 +50,10 @@ class ChildController extends Controller
      */
     public function show(int $id): JsonResponse
     {
-        $child = $this->childService->find($id);
+        $child = $this->childService->findByParent($id);
 
         return ApiResponse::success([
-            'child' => new ChildResource($child)   
+            'child' => new ChildResource($child),
         ], 'Child found successfully');
     }   
 
@@ -60,10 +62,15 @@ class ChildController extends Controller
      */
     public function update(UpdateChildRequest $request, int $id): JsonResponse
     {
-        $child = $this->childService->update($request->validated(), $id);
+        $child = $this->childService->findByParent($id);
+
+        $updatedChild = $this->childService->update(
+            $child,
+            $request->validated(),
+        );
 
         return ApiResponse::success([   
-            'child' => new ChildResource($child),
+            'child' => new ChildResource($updatedChild),
         ], 'Child updated successfully', 200);
     }
 
@@ -72,7 +79,9 @@ class ChildController extends Controller
      */
     public function destroy(int $id): JsonResponse
     {
-        $this->childService->delete($id);
+        $child = $this->childService->findByParent($id);
+
+        $this->childService->delete($child);
 
         return ApiResponse::success(null, 'Child deleted successfully', 200);
     }
