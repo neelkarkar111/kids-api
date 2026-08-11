@@ -3,12 +3,12 @@
 use App\Http\Controllers\api\Admin\AvatarController;
 use App\Http\Controllers\Api\Admin\ChildManageController;
 use App\Http\Controllers\Api\Admin\DashboardController;
+use App\Http\Controllers\Api\Admin\GameZoneController;
 use App\Http\Controllers\Api\Admin\ParentController;
 use App\Http\Controllers\Api\MissionController;
 use App\Http\Controllers\Api\Auth\UserAuthController;
 use App\Http\Controllers\Api\ChildController;
 use App\Http\Controllers\Api\GameController;
-use App\Http\Controllers\Api\GameZoneController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -70,7 +70,7 @@ Route::get('/user', function (Request $request) {
             Route::prefix('avatars')->controller(AvatarController::class)->group(function () {
                     Route::get('/', 'index');
                     Route::post('/', 'store');
-                    Route::get('/{avatar}', 'show');
+                    Route::get('/{avatar}', 'show');    
                     Route::put('/{avatar}', 'update');
                     Route::delete('/{avatar}', 'destroy');
             });
@@ -91,6 +91,15 @@ Route::get('/user', function (Request $request) {
                 Route::delete('/{id}', 'destroy');
             });
 
+            // Game-zone route
+            Route::prefix('game-zone')->controller(GameZoneController::class)->group(function () {
+                Route::get('/', 'index');
+                    Route::post('/', 'store');
+                    Route::get('/{gameZone}', 'show');
+                    Route::put('/{gameZone}', 'update');
+                    Route::delete('/{gameZone}', 'destroy');
+            });
+
             Route::get('/dashboard', [DashboardController::class, 'index']);
         });
 
@@ -108,8 +117,8 @@ Route::get('/user', function (Request $request) {
 
     });
 
-    Route::get('/game-zone', [GameZoneController::class, 'index']);
-    Route::get('/game-zone/{id}', [GameZoneController::class, 'show']);
+    // Route::get('/game-zone', [GameZoneController::class, 'index']);
+    // Route::get('/game-zone/{id}', [GameZoneController::class, 'show']);
 
     Route::get('/games/all', [GameController::class, 'index']);
     Route::get('/games/{id}', [GameController::class, 'show']);

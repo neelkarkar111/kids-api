@@ -17,7 +17,7 @@ class GameZoneSeeder extends Seeder
             [
                 'title' => 'Find Difference',
                 'slug' => 'find-difference',
-                'icon' => 'games/find-difference/icon.png',
+                'icon' => 'games/icons/find-difference.png',
                 'difficulty' => 'Easy',
                 'reward_coins' => 50,
                 'reward_xp' => 20,
@@ -26,7 +26,7 @@ class GameZoneSeeder extends Seeder
             [
                 'title' => 'Drag & Drop',
                 'slug' => 'drag-drop',
-                'icon' => 'games/drag-and-drop/icon.png',
+                'icon' => 'games/icons/drag-and-drop.png',
                 'difficulty' => 'Easy',
                 'reward_coins' => 50,
                 'reward_xp' => 20,

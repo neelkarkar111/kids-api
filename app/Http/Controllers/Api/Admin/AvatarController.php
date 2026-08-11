@@ -47,10 +47,8 @@ class AvatarController extends Controller
      */
     public function show(Avatar $avatar): JsonResponse
     {
-        $showAvatar = $this->avatarService->show($avatar);
-
         return ApiResponse::success([
-            'avatar' => new AvatarResource($showAvatar),
+            'avatar' => new AvatarResource($avatar),
         ], 'Avatar fetched successfully');
     }
 

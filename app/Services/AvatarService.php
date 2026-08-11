@@ -28,9 +28,8 @@ class AvatarService
 
         try {
             if ($image) {
-                $fileName = $image->getClientOriginalName();
 
-                $data['image'] = $image->storeAs('avatars', $fileName, 'public');
+                $data['image'] = $image->store('avatars', 'public');
             }
 
             $avatar = $this->avatarRepository->store($data);
@@ -50,11 +49,6 @@ class AvatarService
         }
     }
 
-    public function show(Avatar $avatar) {
-
-        return $this->avatarRepository->show($avatar);
-    }
-
     public function update(Avatar $avatar, array $data, ?UploadedFile $image) {
 
         DB::beginTransaction();
@@ -63,9 +57,8 @@ class AvatarService
             $oldImage = $avatar->image;
 
             if ($image) {
-                $fileName = $image->getClientOriginalName();
 
-                $data['image'] = $image->storeAs('avatars', $fileName, 'public');
+                $data['image'] = $image->store('avatars', 'public');
             }
 
             $avatar = $this->avatarRepository->update($avatar, $data);
@@ -98,5 +91,5 @@ class AvatarService
         }
 
         return $this->avatarRepository->destroy($avatar);
-    }
+    }   
 }

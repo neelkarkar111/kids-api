@@ -21,6 +21,7 @@ return new class extends Migration
             $table->unsignedInteger('reward_xp')->default(0);
             $table->boolean('is_active')->default(true);
             $table->unsignedInteger('sort_order')->default(0);
+            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -30,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('allgames');
+        Schema::dropIfExists('game_zones');
     }
 };
