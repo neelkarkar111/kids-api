@@ -3,12 +3,12 @@
 use App\Http\Controllers\api\Admin\AvatarController;
 use App\Http\Controllers\Api\Admin\ChildManageController;
 use App\Http\Controllers\Api\Admin\DashboardController;
+use App\Http\Controllers\Api\Admin\GameController;
 use App\Http\Controllers\Api\Admin\GameZoneController;
 use App\Http\Controllers\Api\Admin\ParentController;
 use App\Http\Controllers\Api\MissionController;
 use App\Http\Controllers\Api\Auth\UserAuthController;
 use App\Http\Controllers\Api\ChildController;
-use App\Http\Controllers\Api\GameController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -100,6 +100,15 @@ Route::get('/user', function (Request $request) {
                     Route::delete('/{gameZone}', 'destroy');
             });
 
+            // Games route
+            Route::prefix('games')->controller(GameController::class)->group(function () {
+                Route::get('/', 'index');
+                    Route::post('/', 'store');
+                    Route::get('/{game}', 'show');
+                    Route::put('/{game}', 'update');
+                    Route::delete('/{game}', 'destroy');
+            });
+
             Route::get('/dashboard', [DashboardController::class, 'index']);
         });
 
@@ -116,9 +125,6 @@ Route::get('/user', function (Request $request) {
         Route::post('/mission/complete', [MissionController::class, 'completeMission']); 
 
     });
-
-    // Route::get('/game-zone', [GameZoneController::class, 'index']);
-    // Route::get('/game-zone/{id}', [GameZoneController::class, 'show']);
 
     Route::get('/games/all', [GameController::class, 'index']);
     Route::get('/games/{id}', [GameController::class, 'show']);

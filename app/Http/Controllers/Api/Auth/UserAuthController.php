@@ -31,7 +31,7 @@ class UserAuthController extends Controller
          return ApiResponse::success([
             'user' => new UserAuthResource($result['user']),
             'token' => $result['token']
-        ], 'Login successfully', 200);
+        ], 'Login successful', 200);
     }
 
     // parent signup 
@@ -51,7 +51,9 @@ class UserAuthController extends Controller
         $this->userAuthService->logout(auth()->user());
 
         return ApiResponse::success(
-            message: 'Logout successful.'
+            null,
+            'Logged out successfully..',
+            200
         );
     }
 

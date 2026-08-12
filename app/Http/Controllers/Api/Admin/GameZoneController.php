@@ -20,45 +20,57 @@ class GameZoneController extends Controller
         
         $games = GameZone::where('is_active', true)->orderBy('sort_order')->get();
 
-        return ApiResponse::success([
-            GameZoneResource::collection($games)
-        ], 'Game data fetched successfully', 200);
+        return ApiResponse::success(
+            GameZoneResource::collection($games),
+            'Game data fetched successfully',
+            200
+        );
     }
 
     public function store(StoreGameZoneRequest $request) {
 
          $gameZone = $this->gameZoneService->create($request->validated(), $request->file('icon'));
 
-         return ApiResponse::success([
-            "data" => new GameZoneResource($gameZone),
-         ], 'Game data created successfully.', 201);
+         return ApiResponse::success(
+            new GameZoneResource($gameZone),
+            'Game data created successfully.', 
+            201
+        );
 
     }
 
     public function show(GameZone $gameZone) {
 
-        return ApiResponse::success([
-            'data' =>new GameZoneResource($gameZone),
-        ], 'Game data retrieved successfully.', 200);
+        return ApiResponse::success(
+            new GameZoneResource($gameZone),
+            'Game data retrieved successfully.', 
+            200
+        );
     }
 
     public function update(UpdateGameZoneRequest $request, GameZone $gameZone) {
 
-    $Updategame = $this->gameZoneService->update(
+    $Updatedgame = $this->gameZoneService->update(
             $gameZone,
             $request->validated(),
             $request->file('icon')
         );
 
-        return ApiResponse::success([
-            'data' => new GameZoneResource($Updategame),
-        ], 'Game data update successfully.', 200);
+        return ApiResponse::success(
+            new GameZoneResource($Updatedgame),
+            'Game data updated successfully.', 
+            200
+        );
     }
 
     public function destroy(GameZone $gameZone) {
 
         $this->gameZoneService->delete($gameZone);
 
-        return ApiResponse::success(null, 'Game data deleted successfully.');
+        return ApiResponse::success(
+            null, 
+            'Game data deleted successfully.',
+            200
+        );
     }
 }

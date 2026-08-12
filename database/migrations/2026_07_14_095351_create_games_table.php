@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('description');
             $table->json('data')->nullable();
             $table->boolean('is_active')->default(true);
+            $table->softDeletes();
             $table->timestamps();
         });
     }
